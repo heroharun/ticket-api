@@ -1,0 +1,136 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ticket Allocation API",
+    "description": "API for allocating and purchasing tickets",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/ticket_option": {
+      "post": {
+        "summary": "Create Ticket Option",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "desc": {
+                    "type": "string"
+                  },
+                  "allocation": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "name",
+                  "desc",
+                  "allocation"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketOption"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/purchase": {
+      "post": {
+        "summary": "Purchase from Ticket Option",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "quantity": {
+                    "type": "integer"
+                  },
+                  "user_id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "quantity",
+                  "user_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Invalid request (e.g., quantity exceeds allocation)"
+          }
+        }
+      }
+    },
+    "/ticket/{id}": {
+      "get": {
+        "summary": "Get Ticket",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketOption"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TicketOption": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "desc": {
+            "type": "string"
+          },
+          "allocation": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}
